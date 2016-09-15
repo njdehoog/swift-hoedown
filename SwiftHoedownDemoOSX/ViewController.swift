@@ -1,4 +1,4 @@
-//
+    //
 //  ViewController.swift
 //  SwiftHoedownDemoOSX
 //
@@ -21,7 +21,7 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let sampleFile = NSBundle.mainBundle().pathForResource("sample", ofType: "md")
+        let sampleFile = Bundle.main.path(forResource: "sample", ofType: "md")
         let markdown = try! String(contentsOfFile: sampleFile!)
         if let html = Hoedown.renderHTMLForMarkdown(markdown) {
             webView.mainFrame.loadHTMLString(html, baseURL: nil)
@@ -30,19 +30,19 @@ class ViewController: NSViewController {
 }
 
 extension ViewController: WebPolicyDelegate {
-    func webView(webView: WebView!, decidePolicyForNavigationAction actionInformation: [NSObject : AnyObject]!, request: NSURLRequest!, frame: WebFrame!, decisionListener listener: WebPolicyDecisionListener!) {
+    func webView(_ webView: WebView!, decidePolicyForNavigationAction actionInformation: [AnyHashable: Any]!, request: URLRequest!, frame: WebFrame!, decisionListener listener: WebPolicyDecisionListener!) {
         let navigationType = actionInformation[WebActionNavigationTypeKey] as! NSNumber
-        guard case .LinkClicked = WebNavigationType(rawValue: navigationType.integerValue)! else {
+        guard case .linkClicked = WebNavigationType(rawValue: navigationType.intValue)! else {
             listener.use()
             return
         }
-        guard let URL = actionInformation[WebActionOriginalURLKey] as? NSURL else {
+        guard let URL = actionInformation[WebActionOriginalURLKey] as? URL else {
             listener.use()
             return
         }
         
         listener.ignore()
-        NSWorkspace.sharedWorkspace().openURL(URL)
+        NSWorkspace.shared().open(URL)
     }
 }
 

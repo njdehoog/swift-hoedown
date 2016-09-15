@@ -9,8 +9,8 @@
 import Foundation
 import Hoedown
 
-public class Hoedown {
-    public class func renderHTMLForMarkdown(string: String, flags: HoedownHTMLFlags = .None, extensions: HoedownExtensions = .None) -> String? {
+open class Hoedown {
+    open class func renderHTMLForMarkdown(_ string: String, flags: HoedownHTMLFlags = .None, extensions: HoedownExtensions = .None) -> String? {
         let renderer = HoedownHTMLRenderer(flags: flags)
         let document = HoedownDocument(renderer: renderer, extensions: extensions)
         return document.renderMarkdown(string)
@@ -21,8 +21,8 @@ public protocol HoedownRenderer {
     var internalRenderer: UnsafeMutablePointer<hoedown_renderer> { get }
 }
 
-public class HoedownHTMLRenderer: HoedownRenderer  {
-    public let internalRenderer: UnsafeMutablePointer<hoedown_renderer>
+open class HoedownHTMLRenderer: HoedownRenderer  {
+    open let internalRenderer: UnsafeMutablePointer<hoedown_renderer>
     
     public init(flags: HoedownHTMLFlags = .None, nestingLevel: Int = 0) {
         self.internalRenderer = hoedown_html_renderer_new(hoedown_html_flags(flags.rawValue), CInt(nestingLevel))
@@ -33,19 +33,19 @@ public class HoedownHTMLRenderer: HoedownRenderer  {
     }
 }
 
-public class HoedownDocument {
-    let internalDocument: COpaquePointer
+open class HoedownDocument {
+    let internalDocument: OpaquePointer
     
     public init(renderer: HoedownRenderer, extensions: HoedownExtensions = .None, maxNesting: UInt = 16) {
         self.internalDocument = hoedown_document_new(renderer.internalRenderer, hoedown_extensions(extensions.rawValue), Int(maxNesting))
     }
     
-    public func renderMarkdown(string: String, bufferSize: UInt = 16) -> String? {
+    open func renderMarkdown(_ string: String, bufferSize: UInt = 16) -> String? {
         let buffer = hoedown_buffer_new(Int(bufferSize))
         hoedown_document_render(self.internalDocument, buffer, string, string.utf8.count);
         
         let htmlOutput = hoedown_buffer_cstr(buffer)
-        let output = String.fromCString(htmlOutput)
+        let output = String(cString: htmlOutput!)
         
         hoedown_buffer_free(buffer)
         
@@ -57,7 +57,7 @@ public class HoedownDocument {
     }
 }
 
-public struct HoedownExtensions : OptionSetType {
+public struct HoedownExtensions : OptionSet {
     public let rawValue: UInt32
     public init(rawValue: UInt32) { self.rawValue = rawValue }
     init(_ value: hoedown_extensions) { self.rawValue = value.rawValue }
@@ -87,7 +87,7 @@ public struct HoedownExtensions : OptionSetType {
     public static let DisableIndentedCode = HoedownExtensions(HOEDOWN_EXT_DISABLE_INDENTED_CODE)
 }
 
-public struct HoedownHTMLFlags : OptionSetType {
+public struct HoedownHTMLFlags : OptionSet {
     public let rawValue: UInt32
     public init(rawValue: UInt32) { self.rawValue = rawValue }
     init(_ value: hoedown_html_flags) { self.rawValue = value.rawValue }
