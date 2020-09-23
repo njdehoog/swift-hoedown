@@ -7,9 +7,9 @@
 //
 
 import XCTest
-@testable import SwiftHoedown
+@testable import Hoedown
 
-class SwiftHoedownTests: XCTestCase {
+class HoedownTests: XCTestCase {
     
     func testHeader1() {
         let markdown = "# Header 1"

@@ -147,3 +147,7 @@ Pods/
 # Carthage
 Carthage.pkg
 Carthage/Build
+
+# Swift PM
+.build
+.swiftpm

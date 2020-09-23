@@ -12,18 +12,16 @@ import SwiftHoedown
 
 class WebViewController: UIViewController {
     let webView = WKWebView()
-    
     override var prefersStatusBarHidden : Bool {
         return true
     }
-    
+
     override func loadView() {
         self.view = webView
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let sampleFile = Bundle.main.path(forResource: "sample", ofType: "md")
         let markdown = try! String(contentsOfFile: sampleFile!)
         if let html = Hoedown.renderHTMLForMarkdown(markdown) {
@@ -31,4 +29,3 @@ class WebViewController: UIViewController {
         }
     }
 }
-

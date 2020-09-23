@@ -17,10 +17,9 @@ class ViewController: NSViewController {
             webView.policyDelegate = self
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let sampleFile = Bundle.main.path(forResource: "sample", ofType: "md")
         let markdown = try! String(contentsOfFile: sampleFile!)
         if let html = Hoedown.renderHTMLForMarkdown(markdown) {
@@ -40,9 +39,8 @@ extension ViewController: WebPolicyDelegate {
             listener.use()
             return
         }
-        
+
         listener.ignore()
         NSWorkspace.shared.open(URL)
     }
 }
-
