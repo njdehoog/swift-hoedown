@@ -151,3 +151,4 @@ Carthage/Build
 # Swift PM
 .build
 .swiftpm
+Hoedown.xcodeproj

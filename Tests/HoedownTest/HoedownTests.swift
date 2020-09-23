@@ -7,16 +7,16 @@
 //
 
 import XCTest
-@testable import Hoedown
+@testable import SwiftHoedown
 
 class HoedownTests: XCTestCase {
-    
+
     func testHeader1() {
         let markdown = "# Header 1"
         let html = Hoedown.renderHTMLForMarkdown(markdown)
         XCTAssertEqual(html, "<h1>Header 1</h1>\n")
     }
-    
+
     func testCurlyQuotes() {
         let markdown = "“This is a quote”\nFollowed by some text"
         let html = Hoedown.renderHTMLForMarkdown(markdown, flags: .None, extensions: .None)

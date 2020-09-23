@@ -3,22 +3,29 @@
 import PackageDescription
 
 let package = Package(
-    name: "Hoedown",
+    name: "SwiftHoedown",
     products: [
         .library(
             name: "SwiftHoedown",
-            targets: ["Hoedown"]
+            targets: ["SwiftHoedown"]
         ),
+        .executable(
+            name: "DemoApp",
+            targets: ["DemoApp"]
+        )
     ],
     targets: [
         .target(
-            name: "Hoedown",
+            name: "SwiftHoedown",
             dependencies: ["CHoedown"]),
+        .target(
+            name: "DemoApp",
+            dependencies: ["SwiftHoedown"]),
         .target(
             name: "CHoedown",
             dependencies: []),
         .testTarget(
             name: "HoedownTest",
-            dependencies: ["Hoedown"]),
+            dependencies: ["SwiftHoedown"])
     ]
 )
